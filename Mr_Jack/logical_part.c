@@ -14,14 +14,14 @@ struct cell map[13][9];
 void init_map()
 {
     FILE* fpin = fopen("C:\\Users\\ASUS-pc Ishragh\\Documents\\GitHub\\MrJack\\Mr_Jack\\initial_map_attitude.txt","r");
-    for(int i = 0; i < 9; i++)
+    for(int j = 0; j < 9; j++)
     {
-        for(int j=0; j<13; j++)
+        for(int i=0; i<13; i++)
         {
             fscanf(fpin, "%d",&(map[i][j].attitude));
         }
     }
     fclose(fpin);
-    
+
 
 }
