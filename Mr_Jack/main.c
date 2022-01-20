@@ -1,7 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main()
 {
-    printf("Hello, World!\n");
-    return 0;
+    FILE* fpin = fopen("initial_map_attitude.txt","r")
 }
