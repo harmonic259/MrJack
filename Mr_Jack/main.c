@@ -3,5 +3,7 @@
 
 int main()
 {
-    FILE* fpin = fopen("initial_map_attitude.txt","r")
+
+
+
 }
