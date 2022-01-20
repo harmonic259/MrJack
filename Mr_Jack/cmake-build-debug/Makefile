@@ -128,6 +128,43 @@ Mr_Jack/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Mr_Jack.dir\build.make CMakeFiles/Mr_Jack.dir/build
 .PHONY : Mr_Jack/fast
 
+#=============================================================================
+# Target rules for targets named logical_part
+
+# Build rule for target.
+logical_part: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 logical_part
+.PHONY : logical_part
+
+# fast build rule for target.
+logical_part/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\logical_part.dir\build.make CMakeFiles/logical_part.dir/build
+.PHONY : logical_part/fast
+
+logical_part.obj: logical_part.c.obj
+.PHONY : logical_part.obj
+
+# target to build an object file
+logical_part.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\logical_part.dir\build.make CMakeFiles/logical_part.dir/logical_part.c.obj
+.PHONY : logical_part.c.obj
+
+logical_part.i: logical_part.c.i
+.PHONY : logical_part.i
+
+# target to preprocess a source file
+logical_part.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\logical_part.dir\build.make CMakeFiles/logical_part.dir/logical_part.c.i
+.PHONY : logical_part.c.i
+
+logical_part.s: logical_part.c.s
+.PHONY : logical_part.s
+
+# target to generate assembly for a file
+logical_part.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\logical_part.dir\build.make CMakeFiles/logical_part.dir/logical_part.c.s
+.PHONY : logical_part.c.s
+
 main.obj: main.c.obj
 .PHONY : main.obj
 
@@ -161,6 +198,10 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... Mr_Jack
+	@echo ... logical_part
+	@echo ... logical_part.obj
+	@echo ... logical_part.i
+	@echo ... logical_part.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
