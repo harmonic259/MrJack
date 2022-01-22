@@ -18,6 +18,7 @@ void initial_position()
     position[8][0]=8,position[8][1]=3;
 
 }
+
 //struct contains attributes of each cell
 struct cell
 {
@@ -36,6 +37,7 @@ struct character_node
     int character;
     struct character_node* next;
 };
+
 //linked list of characters
 struct character_node* cards=NULL;
 struct character_node* suspects_cards=NULL;
@@ -230,10 +232,50 @@ void character_action(int chosen_character)
 
             }
             //Sherlock Holmes actions
-            
+
 
             break;
         case 2:
+
+            //John Watson moves
+            printf("You chose John Watson. You can move this character 1 to 3 cell\n");
+            for(int count=0; count<3; count++)
+            {
+                printf("Enter the coordinate of the cell you want to go with format (column row)\n");
+                int c,r;
+                scanf("%d %d",&c,&r);
+                if(check(chosen_character,position[chosen_character][0],position[chosen_character][1],c,r))
+                {
+                    position[chosen_character][0]=c;
+                    position[chosen_character][1]=r;
+                    change();
+                    if(count!=2)
+                    {
+                        printf("Do you want to do another move? 1)Yes 2)No\n");
+                        int answ;
+                        scanf("%d",&answ);
+                        if(answ==1)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                }
+                else
+                {
+                    printf("Your action was wrong. Please choose another coordinate.\n");
+                    count--;
+                    continue;
+                }
+
+            }
+            //John Watson actions
+
+
             break;
         case 3:
             break;

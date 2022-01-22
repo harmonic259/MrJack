@@ -141,6 +141,19 @@ logical_part/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\logical_part.dir\build.make CMakeFiles/logical_part.dir/build
 .PHONY : logical_part/fast
 
+#=============================================================================
+# Target rules for targets named visual_part
+
+# Build rule for target.
+visual_part: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 visual_part
+.PHONY : visual_part
+
+# fast build rule for target.
+visual_part/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\visual_part.dir\build.make CMakeFiles/visual_part.dir/build
+.PHONY : visual_part/fast
+
 logical_part.obj: logical_part.c.obj
 .PHONY : logical_part.obj
 
@@ -189,6 +202,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Mr_Jack.dir\build.make CMakeFiles/Mr_Jack.dir/main.c.s
 .PHONY : main.c.s
 
+visual_part.obj: visual_part.c.obj
+.PHONY : visual_part.obj
+
+# target to build an object file
+visual_part.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\visual_part.dir\build.make CMakeFiles/visual_part.dir/visual_part.c.obj
+.PHONY : visual_part.c.obj
+
+visual_part.i: visual_part.c.i
+.PHONY : visual_part.i
+
+# target to preprocess a source file
+visual_part.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\visual_part.dir\build.make CMakeFiles/visual_part.dir/visual_part.c.i
+.PHONY : visual_part.c.i
+
+visual_part.s: visual_part.c.s
+.PHONY : visual_part.s
+
+# target to generate assembly for a file
+visual_part.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\visual_part.dir\build.make CMakeFiles/visual_part.dir/visual_part.c.s
+.PHONY : visual_part.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -199,12 +236,16 @@ help:
 	@echo ... rebuild_cache
 	@echo ... Mr_Jack
 	@echo ... logical_part
+	@echo ... visual_part
 	@echo ... logical_part.obj
 	@echo ... logical_part.i
 	@echo ... logical_part.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... visual_part.obj
+	@echo ... visual_part.i
+	@echo ... visual_part.s
 .PHONY : help
 
 
