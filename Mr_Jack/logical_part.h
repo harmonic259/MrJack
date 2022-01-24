@@ -1,3 +1,6 @@
+
+#ifndef MR_JACK_LOGICAL_PART_H
+#define MR_JACK_LOGICAL_PART_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -150,7 +153,6 @@ void init_map()
     fclose(fpin2);
 
 }
-
 
 //check if an action is true or not (returns 0 or 1)
 int check(int chosen_character, int init_c, int init_r, int c, int r)
@@ -320,3 +322,8 @@ void correspond()
         }
     }
 }
+
+#endif //MR_JACK_LOGICAL_PART_H
+
+
+
