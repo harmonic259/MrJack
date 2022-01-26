@@ -1,14 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
+#include "visual_part.h"
 
 /////0: empty/ 1: SH/ 2: JW/ 3: JS/ 4: IL/ 5: MS/ 6: SG/ 7: WG/ 8: JB
 //real position of  a cell in map
-int real_position[12][8][2];
+int real_position[13][9][2];
 
 //position of each character
 int position[9][2];
+
+//this variable implies turn
+int turn=1;
 
 void initial_position()
 {
@@ -20,7 +23,6 @@ void initial_position()
     position[6][0]=12,position[6][1]=3;
     position[7][0]=4,position[7][1]=0;
     position[8][0]=8,position[8][1]=3;
-
 }
 
 //struct contains attributes of each cell
@@ -71,6 +73,12 @@ struct character_node* find(struct character_node* head, int x)
         i++;
     }
     return current;
+}
+
+//pop
+void pop()
+{
+
 }
 
 //make list of suspects cards
@@ -126,6 +134,8 @@ void init_map()
 
     //shuffle cards and break the list in two list of length 4
     make_two_pack_of_cards();
+
+    make_list_of_suspects_cards();
 
     //initial situation of attitudes in map
     FILE* fpin1 = fopen("C:\\Users\\ASUS-pc Ishragh\\Documents\\GitHub\\MrJack\\Mr_Jack\\initial_map_attitude.txt","r");
@@ -320,3 +330,8 @@ void correspond()
         }
     }
 }
+
+//
+
+
+

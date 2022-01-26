@@ -5,7 +5,22 @@
 
 int main()
 {
-    printf("0");
-    int a;
-    scanf("%d",&a);
+
+    char a;
+    scanf("%c",&a);
+    if(a=='a')
+    {
+        printf("2\n");
+        int r;
+        scanf("%d",&r);
+        if(r==1)
+        {
+            printf("1\n");
+        }
+
+    }
+
+
+    scanf("%c",&a);
+    scanf("%c",&a);
 }
