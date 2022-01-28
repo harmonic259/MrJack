@@ -67,32 +67,56 @@ void init_display()
         }
         printf("\n");
     }
+
+
+
 }
+
 
 void game_loop()
 {
-    int mr_jack;
-    init_map();
-    init_display();
-    printf("Mr.Jack! Please enter s to see your character.\n" );
-    char c;
-    scanf("%c",&c);
-    if(c=='s')
+    int rr;
+    printf("1)Start new game     2)load the previous game\n");
+    scanf("%d",&rr);
+    if(rr==2)
     {
-        mr_jack = find(suspects_cards, 0)->character;
-        printf("You are character %d\n", mr_jack);
-        pop(&suspects_cards);
+        load();
+
+        while (round_counter<8)
+        {
+            odd_turn(mrJack);
+            even_turn(mrJack);
+        }
     }
-    for(int i=0; i<4; i++)
+    else
     {
-        odd_turn(mr_jack);
-        even_turn(mr_jack);
+        int mr_jack;
+        init_map();
+
+        printf("Mr.Jack! Please enter 1 to see your character.\n" );
+        int c;
+        scanf("%d",&c);
+        if(c==1)
+        {
+            mr_jack = find(suspects_cards, 0)->character;
+            mrJack = mr_jack;
+            printf("You are character %d\n", mr_jack);
+            pop(&suspects_cards);
+            printf("Enter 2 to hide it\n");
+            scanf("%d",&c);
+            if(c==2)
+            {
+                system("cls");
+            }
+
+        }
+        init_display();
+        while (round_counter<8)
+        {
+            odd_turn(mr_jack);
+            even_turn(mr_jack);
+        }
     }
-
-
-
-
-
 }
 
 int main()
