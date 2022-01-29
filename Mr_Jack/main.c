@@ -1,26 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "visual_part.h"
 
 
 int main()
 {
+    game_loop();
 
-    char a;
-    scanf("%c",&a);
-    if(a=='a')
-    {
-        printf("2\n");
-        int r;
-        scanf("%d",&r);
-        if(r==1)
-        {
-            printf("1\n");
-        }
+    int a;
+    scanf("%d",&a);
 
-    }
-
-
-    scanf("%c",&a);
-    scanf("%c",&a);
 }

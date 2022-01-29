@@ -22,6 +22,8 @@ int round_counter=0;
 //mr jack
 int mrJack;
 
+int another_character=0;
+
 void initial_position()
 {
     position[1][0]=6,position[1][1]=5;
@@ -57,12 +59,17 @@ struct character_node
 
 //linked list of characters
 struct character_node* cards=NULL;
-struct character_node* suspects_cards=NULL;
+struct character_node* cards_saved=NULL;
 
+struct character_node* suspects_cards=NULL;
+struct character_node* suspects_cards_saved=NULL;
 
 //breaking list of cards in two lists of 4 cards, one for odd turns and other for even turns
 struct character_node* odd_cards=NULL;
+struct character_node* odd_cards_saved=NULL;
+
 struct character_node* even_cards=NULL;
+struct character_node* even_cards_saved=NULL;
 
 //push
 void push(struct character_node** list, int new_data)
@@ -201,26 +208,39 @@ void save()
         fwrite(&round_counter, sizeof(int),1,fpin);
         fwrite(&mrJack, sizeof(int),1,fpin);
 
+        cards_saved=NULL;
+        suspects_cards_saved=NULL;
+        odd_cards_saved=NULL;
+        even_cards_saved=NULL;
+
         struct character_node* temp;
         temp=cards;
-        while (temp->next!=NULL)
+        while (temp!=NULL)
         {
             fwrite(&(temp->character), sizeof(int),1,fpin);
+            push(&cards_saved,temp->character);
+            temp=temp->next;
         }
         temp=suspects_cards;
-        while (temp->next!=NULL)
+        while (temp!=NULL)
         {
             fwrite(&(temp->character), sizeof(int),1,fpin);
+            push(&suspects_cards_saved,temp->character);
+            temp=temp->next;
         }
         temp=odd_cards;
-        while (temp->next!=NULL)
+        while (temp!=NULL)
         {
             fwrite(&(temp->character), sizeof(int),1,fpin);
+            push(&odd_cards_saved,temp->character);
+            temp=temp->next;
         }
         temp=even_cards;
-        while (temp->next!=NULL)
+        while (temp!=NULL)
         {
             fwrite(&(temp->character), sizeof(int),1,fpin);
+            push(&even_cards_saved,temp->character);
+            temp=temp->next;
         }
 
 
@@ -257,9 +277,46 @@ void load()
         fread(&round_counter, sizeof(int),1,fpin);
         fread(&mrJack, sizeof(int),1,fpin);
 
-
-
     }
+
+
+    cards=NULL;
+    suspects_cards=NULL;
+    odd_cards=NULL;
+    even_cards=NULL;
+
+    struct character_node* temp;
+    temp=cards_saved;
+    while (temp!=NULL)
+    {
+        fread(&(temp->character), sizeof(int),1,fpin);
+        push(&cards,temp->character);
+        temp=temp->next;
+    }
+    temp=suspects_cards_saved;
+    while (temp!=NULL)
+    {
+        fread(&(temp->character), sizeof(int),1,fpin);
+        push(&suspects_cards,temp->character);
+        temp=temp->next;
+    }
+    temp=odd_cards_saved;
+    while (temp!=NULL)
+    {
+        fread(&(temp->character), sizeof(int),1,fpin);
+        push(&odd_cards,temp->character);
+        temp=temp->next;
+    }
+    temp=even_cards_saved;
+    while (temp!=NULL)
+    {
+        fread(&(temp->character), sizeof(int),1,fpin);
+        push(&even_cards,temp->character);
+        temp=temp->next;
+    }
+
+
+
 
     fclose(fpin);
 }
@@ -309,7 +366,7 @@ void init_map()
 }
 
 
-//check if an action is true or not (returns 0 or 1)
+//check if a move is true or not (returns 0 or 1)
 int check(int init_c, int init_r, int c, int r)
 {
     int ans;
@@ -414,7 +471,7 @@ int check_stealthy(int init_c, int init_r, int c, int r)
                         )
                 )
 
-         );
+         )||(map[init_c][init_r].attitude==2&&map[c][r].attitude==2);
     return ans;
 }
 int check_goodly(int init_c, int init_r, int c, int r)
@@ -442,6 +499,19 @@ int check_last_position(int chosen_character, int c, int r)
     {
         return 0;
     }
+    else if(turn==1&&map[c][r].attitude==7)
+    {
+        if(mrJack==map[c][r].character)
+        {
+
+            printf("Mr.Jack! You won the game\n");
+        }
+        else
+        {
+            return 0;
+        }
+
+    }
     else
     {
         int ans;
@@ -450,11 +520,77 @@ int check_last_position(int chosen_character, int c, int r)
         return ans;
     }
 }
+//this function is for displaying characters with their name
+char* num_to_name(int character_num)
+{
+    switch (character_num)
+    {
+        case 1:
+            return "SH";
+            break;
+        case 2:
+            return "JW";
+            break;
+        case 3:
+            return "JS";
+            break;
+        case 4:
+            return "IL";
+            break;
+        case 5:
+            return "MS";
+            break;
+        case 6:
+            return "SG";
+            break;
+        case 7:
+            return "WG";
+            break;
+        case 8:
+            return "JB";
+            break;
+    }
+}
+//this function is for displaying attitudes with some notations
+//0: empty/ 1: home/ 2: opened well/ 3: closed well/ 4: on light/ 5: off light/ 7: unavailable/ 8: banned
+char* num_to_notation(int attitude_num)
+{
+    switch (attitude_num)
+    {
+        case 0:
+            return "    ";
+            break;
+        case 1:
+            return "H   ";
+            break;
+        case 2:
+            return "W+  ";
+            break;
+        case 3:
+            return "W-  ";
+            break;
+        case 4:
+            return "L+  ";
+            break;
+        case 5:
+            return "L-  ";
+            break;
+        case 6:
+            return "    ";
+            break;
+        case 7:
+            return "Exit";
+            break;
+        case 8:
+            return "Ban ";
+            break;
+    }
+}
+
+
 //displaying map
 void display()
 {
-
-
     system("cls");
     for(int i=0; i<=38; i++)
     {
@@ -465,19 +601,27 @@ void display()
             {
                 for(int y=0; y<13; y++)
                 {
-                    if(j==real_position[y][x][0]&&i==real_position[y][x][1])
+                    if((j==real_position[y][x][0]||j==real_position[y][x][0]+1||j==real_position[y][x][0]+2)&&i==real_position[y][x][1])
                     {
                         if(map[y][x].character!=0)
                         {
-                            if(map[y][x].character!=0)
-                                printf("%d",map[y][x].character);
+                            if(j==real_position[y][x][0])
+                                printf("%c", num_to_name(map[y][x].character)[0]);
+                            else if(j==real_position[y][x][0]+1)
+                                printf("%c", num_to_name(map[y][x].character)[1]);
+                            else
+                                printf("%d", map[y][x].character);
                             flag=0;
                         }
                     }
-                    else if(j==real_position[y][x][0]&&i==real_position[y][x][1]+1)
+                    else if((j>=real_position[y][x][0]&&j<=real_position[y][x][0]+3)&&i==real_position[y][x][1]+1)
                     {
 
-                        printf("%d",map[y][x].attitude);
+                        for(int xx=0; xx<4; xx++)
+                        {
+                            if(j==xx+real_position[y][x][0])
+                                printf("%c", num_to_notation(map[y][x].attitude)[xx]);
+                        }
                         flag=0;
 
                     }
@@ -528,7 +672,8 @@ void display()
 void move(int chosen_character, int c, int r)
 {
 
-    map[position[chosen_character][0]][position[chosen_character][1]].character=0;
+    map[position[chosen_character][0]][position[chosen_character][1]].character=another_character;
+    another_character=map[c][r].character;
     position[chosen_character][0]=c;
     position[chosen_character][1]=r;
     map[c][r].character=chosen_character;
@@ -560,7 +705,7 @@ void character_action(int chosen_character)
                     move(chosen_character,c,r);
 
 
-                    if(count!=2)
+                    if(count!=3)
                     {
                         printf("Do you want to do another move? 1)Yes 2)No\n");
                         int answ;
@@ -584,6 +729,7 @@ void character_action(int chosen_character)
 
                         }
                     }
+
 
                 }
                 else
@@ -626,7 +772,7 @@ void character_action(int chosen_character)
                 {
                     move(chosen_character,c,r);
 
-                    if(count!=2)
+                    if(count!=3)
                     {
                         printf("Do you want to do another move? 1)Yes 2)No\n");
                         int answ;
@@ -791,7 +937,7 @@ void character_action(int chosen_character)
                     {
                         move(chosen_character,c,r);
 
-                        if(count!=2)
+                        if(count!=3)
                         {
                             printf("Do you want to do another move? 1)Yes 2)No\n");
                             int answ;
@@ -851,7 +997,7 @@ void character_action(int chosen_character)
                     {
                         move(chosen_character,c,r);
 
-                        if(count!=2)
+                        if(count!=3)
                         {
                             printf("Do you want to do another move? 1)Yes 2)No\n");
                             int answ;
@@ -900,7 +1046,7 @@ void character_action(int chosen_character)
                     move(chosen_character,c,r);
 
 
-                    if(count!=2)
+                    if(count!=3)
                     {
                         printf("Do you want to do another move? 1)Yes 2)No\n");
                         int answ;
@@ -937,13 +1083,13 @@ void character_action(int chosen_character)
             scanf("%d %d",&b1,&b2);
             if(b1==12)
             {
-                map[b1][b2].attitude=1;
-                map[b1-1][b2].attitude=1;
+                map[b1][b2].attitude=7;
+                map[b1-1][b2].attitude=7;
             }
             else if(b1==0)
             {
-                map[b1][b2].attitude=1;
-                map[b1+1][b2].attitude=1;
+                map[b1][b2].attitude=7;
+                map[b1+1][b2].attitude=7;
             }
             printf("Now enter the coordinate of the cell you want to put the banner on it\n");
             scanf("%d %d",&b1,&b2);
@@ -1027,7 +1173,7 @@ void character_action(int chosen_character)
                     {
                         move(chosen_character,c,r);
 
-                        if(count!=2)
+                        if(count!=3)
                         {
                             printf("Do you want to do another move? 1)Yes 2)No\n");
                             int answ;
@@ -1123,7 +1269,7 @@ void character_action(int chosen_character)
                     {
                         move(chosen_character,c,r);
 
-                        if(count!=2)
+                        if(count!=3)
                         {
                             printf("Do you want to do another move? 1)Yes 2)No\n");
                             int answ;
@@ -1177,7 +1323,7 @@ void character_action(int chosen_character)
                     {
                         move(chosen_character,c,r);
 
-                        if(count!=2)
+                        if(count!=3)
                         {
                             printf("Do you want to do another move? 1)Yes 2)No\n");
                             int answ;
@@ -1238,7 +1384,7 @@ void character_action(int chosen_character)
                     {
                         move(chosen_character,c,r);
 
-                        if(count!=2)
+                        if(count!=3)
                         {
                             printf("Do you want to do another move? 1)Yes 2)No\n");
                             int answ;
@@ -1298,7 +1444,7 @@ void character_action(int chosen_character)
                     {
                         move(chosen_character,c,r);
 
-                        if(count!=2)
+                        if(count!=3)
                         {
                             printf("Do you want to do another move? 1)Yes 2)No\n");
                             int answ;
@@ -1437,8 +1583,10 @@ void odd_turn(int MrJack)
     {
         printf("Ok! Mr.Jack is invisible\n");
     }
-    printf("Enter n for going next round\n");
+
     round_counter++;
+    display();
+
 
 
 }
@@ -1486,13 +1634,29 @@ void even_turn(int MrJack)
     if(is_visible(position[MrJack][0],position[MrJack][1]))
     {
         printf("Ok! Mr.Jack is visible\n");
+        printf("characters :");
+        for(int i=1; i<9; i++)
+        {
+            if(is_visible(position[MrJack][0],position[MrJack][1])==0)
+                printf("%d ",i);
+        }
+        printf("are not Mr.Jack!\n");
     }
     else
     {
         printf("Ok! Mr.Jack is invisible\n");
+        printf("characters :");
+        for(int i=1; i<9; i++)
+        {
+            if(is_visible(position[MrJack][0],position[MrJack][1])==1)
+                printf("%d ",i);
+        }
+        printf("are not Mr.Jack!\n");
     }
-    printf("Enter n for going next round\n");
+
     round_counter++;
+    display();
+
 
 }
 

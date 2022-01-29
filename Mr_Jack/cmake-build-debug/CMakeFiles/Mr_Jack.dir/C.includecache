@@ -6,6 +6,18 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/ASUS-pc Ishragh/Documents/GitHub/MrJack/Mr_Jack/logical_part.h
+stdio.h
+-
+stdlib.h
+-
+time.h
+-
+windows.h
+-
+math.h
+-
+
 C:/Users/ASUS-pc Ishragh/Documents/GitHub/MrJack/Mr_Jack/main.c
 stdio.h
 -
@@ -13,4 +25,14 @@ stdlib.h
 -
 time.h
 -
+visual_part.h
+C:/Users/ASUS-pc Ishragh/Documents/GitHub/MrJack/Mr_Jack/visual_part.h
+
+C:/Users/ASUS-pc Ishragh/Documents/GitHub/MrJack/Mr_Jack/visual_part.h
+stdio.h
+-
+windows.h
+-
+logical_part.h
+C:/Users/ASUS-pc Ishragh/Documents/GitHub/MrJack/Mr_Jack/logical_part.h
 
